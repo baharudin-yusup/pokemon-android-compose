@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
@@ -22,6 +23,27 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions += "environment"
+    
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            resValue("string", "app_name", "PokemonBahar DEV")
+            
+            // Specify flavor for modules that don't have their own flavors
+            matchingFallbacks += listOf("dev", "production")
+        }
+        
+        create("production") {
+            dimension = "environment"
+            resValue("string", "app_name", "Pokemon Bahar")
+            
+            matchingFallbacks += listOf("production", "dev")
+        }
     }
 
     buildTypes {
@@ -52,6 +74,7 @@ android {
 
 dependencies {
     implementation(project(":core:ui"))
+    implementation(project(":core:domain"))
     implementation(project(":core:common"))
     implementation(project(":feature:catalog"))
     implementation(project(":feature:detail"))
@@ -74,6 +97,10 @@ dependencies {
     // Navigation 3
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+
+    // Serialization
+    implementation(libs.kotlinx.serialization.core)
 
     // Hilt
     implementation(libs.hilt.android)

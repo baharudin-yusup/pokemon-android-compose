@@ -47,6 +47,7 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
+    implementation(project(":core:domain"))
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))
@@ -54,6 +55,14 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material.icon.extended)
+
+    // Coil for image loading
+    implementation(libs.coil.compose)
+
+    // Paging
+    implementation(libs.paging.compose)
+    implementation(libs.paging.runtime)
 
     // Testing
     testImplementation(libs.junit)
